@@ -1,242 +1,678 @@
+<!DOCTYPE html> 
+<html> 
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Ruby on Rails: Welcome aboard</title>
-    <style type="text/css" media="screen">
-      body {
-        margin: 0;
-        margin-bottom: 25px;
-        padding: 0;
-        background-color: #f0f0f0;
-        font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
-        font-size: 13px;
-        color: #333;
-      }
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Katie's Dog Grooming</title> 
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" /> 
+		<link rel="stylesheet" href="jqm-icon-pack-3.0.0-fa.css" />
+		
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script>
+		  //reset type=date inputs to text
+		  $( document ).bind( "mobileinit", function(){
+		    $.mobile.page.prototype.options.degradeInputs.date = true;
+		  });	
+		</script>
+		<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+		<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
+		<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
+		<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.datebox.min.js"></script>
+		<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.en_US.utf8.js"></script>
+</head> 
 
-      h1 {
-        font-size: 28px;
-        color: #000;
-      }
+<!-- main page -->
+<div data-role="page" id="main">
 
-      a  {color: #03c}
-      a:hover {
-        background-color: #03c;
-        color: white;
-        text-decoration: none;
-      }
+	<div data-role="header" data-position="fixed">
+		<h1>Katie's Dog <br> Grooming</h1>
+	</div><!-- /header -->
 
+	<div data-role="content" id="one">	
+		<h2 align="center">Main Menu</h2>
+		<p><a href="#groomappt" data-role="button" data-icon="arrow-r">Grooming Appointment</a></p>	
+		<p><a href="#vetappt" data-role="button" data-icon="arrow-r">Veterenarian Appointment</a></p>
+		<p><a href="#picture" data-role="button" data-icon="arrow-r">View Grooming Pictures</a></p>
+		<p><a href="#goog_search" data-role="button" data-icon="arrow-r">Search For Nearest Vet</a></p>	
+	</div><!-- /content -->
 
-      #page {
-        background-color: #f0f0f0;
-        width: 750px;
-        margin: 0;
-        margin-left: auto;
-        margin-right: auto;
-      }
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
 
-      #content {
-        float: left;
-        background-color: white;
-        border: 3px solid #aaa;
-        border-top: none;
-        padding: 25px;
-        width: 500px;
-      }
+<!-- Page: #vet -->
+<div data-role="page" id="vetappt" data-theme="a">
 
-      #sidebar {
-        float: right;
-        width: 175px;
-      }
+	<div data-role="header" data-position="fixed">
+		<a data-rel="back" data-icon="arrow-l" class="ui-btn-left">Back</a>
+		<h1>New Vet Appt</h1>
+	</div><!-- /header -->
 
-      #footer {
-        clear: both;
-      }
+	<div data-role="collapsible" id="myvet">	
+		<h2>View Appointment</h2>
+			<p><a href="http://localhost/katies_grm/view_vappt.php" data-direction="forward" data-role="button" data-theme="b">View Apppointment</a></p>
+	</div> <!-- /myvet -->
+	<div data-role="collapsible" id="vetappt">	
+		<h2>New Appointment</h2>
 
-      #header, #about, #getting-started {
-        padding-left: 75px;
-        padding-right: 30px;
-      }
+			<form id="new_vet_appt" method="POST" action="http://localhost/katies_grm/create_info.php" >
+				<div data-role="fieldcontain"><!--name box-->
+					<input type="hidden" name="form_choice" id="form_choice" value="new_vet_appt" />
+					<label for='new_vtfname'>Veterinarian's First Name:</label> <input required type='text' name='new_vtfname' id='new_vtfname' placeholder='Vets First Name'> <br>
+					<label for='new_vtlname'>Veterinarian's Last Name:</label> <input required type='text' name='new_vtlname' id='new_vtlname' placeholder='Vets First Name'> <br>
+					<label for="new_vtdate">Appointment Date:</label> <br>
+					<input name="new_vtdate" id="new_vtdate" type="text" data-role="datebox" placeholder='MM/DD/YYYY' data-options='{"mode": "datebox", "useNewStyle":true}'> <br>
+					<label for="new_vtfdate">Future Appointment Date:</label> <br>
+					<input name="new_vtfdate" id="new_vtfdate" type="text" data-role="datebox" placeholder='MM/DD/YYYY' data-options='{"mode": "datebox", "useNewStyle":true}'> <br>					
+					<label for='new_vvacc'>Vaccinations Received:</label> <input required type='text' name='new_vvacc' id='new_vvacc' placeholder='Vaccinations'> <br>
+	        			<input type='submit' value='Submit'/>
+					<input type='reset' value='Clear' />
+				</div> <!-- /fieldcontain -->
+			</form>
 
+ 	<script type="text/javascript">    
+	$( document ).delegate("#vet", "pageinit", function() {
+	     
+	    //user clicks submit
+	    $('#submit').click(function () {        
+	    	//serialize form data
+	        var form_data = $('#new_vet_appt').serialize(); 
+	
+	        //ajax call
+	        $.ajax({
+	            //post url
+	            url: "http://localhost/katies_grm/create_info.php", 
+	             
+	            //submission method
+	            type: "POST",
+	 
+	            //passes the data from the form         
+	            data: data,     
+	             
+	            //no cache
+	            cache: false         
+	            }       
+	        );
+	         
+	        //cancel standard submit behaviors
+	        return false;
+	    }); 
+	}); 
+        </script>
 
-      #header {
-        background-image: url("assets/rails.png");
-        background-repeat: no-repeat;
-        background-position: top left;
-        height: 64px;
-      }
-      #header h1, #header h2 {margin: 0}
-      #header h2 {
-        color: #888;
-        font-weight: normal;
-        font-size: 16px;
-      }
+	</div><!-- /vetappt -->
 
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
 
-      #about h3 {
-        margin: 0;
-        margin-bottom: 10px;
-        font-size: 14px;
-      }
+</div><!-- /vet -->
 
-      #about-content {
-        background-color: #ffd;
-        border: 1px solid #fc0;
-        margin-left: -55px;
-        margin-right: -10px;
-      }
-      #about-content table {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        font-size: 11px;
-        border-collapse: collapse;
-      }
-      #about-content td {
-        padding: 10px;
-        padding-top: 3px;
-        padding-bottom: 3px;
-      }
-      #about-content td.name  {color: #555}
-      #about-content td.value {color: #000}
+<!-- Page: #groomappt -->
+<div data-role="page" id="groomappt" data-theme="a">
 
-      #about-content ul {
-        padding: 0;
-        list-style-type: none;
-      }
+	<div data-role="header" data-position="fixed">
+		<a data-rel="back" data-icon="arrow-l" class="ui-btn-left">Back</a>
+		<h1>Groom Appt</h1>
+	</div><!-- /header -->
 
-      #about-content.failure {
-        background-color: #fcc;
-        border: 1px solid #f00;
-      }
-      #about-content.failure p {
-        margin: 0;
-        padding: 10px;
-      }
+	<div data-role="collapsible" id="viewgrappt">	
+		<h2>View Appointments</h2>
+		<p><a href="http://localhost/katies_grm/view_grmappt.php" data-direction="forward" data-role="button" data-theme="b">View Appointment</a></p>
+	</div><!-- /viewgrappt -->
 
+	<div data-role="collapsible" id="newgrappt">	
+		<h2>New Appointment</h2>
 
-      #getting-started {
-        border-top: 1px solid #ccc;
-        margin-top: 25px;
-        padding-top: 15px;
-      }
-      #getting-started h1 {
-        margin: 0;
-        font-size: 20px;
-      }
-      #getting-started h2 {
-        margin: 0;
-        font-size: 14px;
-        font-weight: normal;
-        color: #333;
-        margin-bottom: 25px;
-      }
-      #getting-started ol {
-        margin-left: 0;
-        padding-left: 0;
-      }
-      #getting-started li {
-        font-size: 18px;
-        color: #888;
-        margin-bottom: 25px;
-      }
-      #getting-started li h2 {
-        margin: 0;
-        font-weight: normal;
-        font-size: 18px;
-        color: #333;
-      }
-      #getting-started li p {
-        color: #555;
-        font-size: 13px;
-      }
+		<form id="new_grappt" method="POST" action="http://localhost/katies_grm/create_info.php" >
+			<div data-role="fieldcontain"><!--name box-->
+				<input type="hidden" name="form_choice" id="form_choice" value="grm_appt"/>
+				<label for="new_grmdate">Appointment Date:</label> <br>
+				<input name="new_grmdate" id="new_grmdate" type="text" data-role="datebox" placeholder='MM/DD/YYYY' data-options='{"mode": "datebox", "useNewStyle":true}'> <br>
+				<label for="new_grmfdate">Future Appointment Date:</label> <br>
+				<input name="new_grmfdate" id="new_grmfdate" type="text" data-role="datebox" placeholder='MM/DD/YYYY' data-options='{"mode": "datebox", "useNewStyle":true}'>  <br>	
+				<label for='new_grmstyle'>Grooming Style:</label> <input required type='text' name='new_grmstyle' id='new_grmstyle' placeholder='Style'> <br>
+				<h3 id="grm_appt_response"></h3><br><br>
+	        		<input type='submit' value='Submit'/>
+				<input type='reset' value='Clear' />
+			</div> <!-- /fieldcontain -->
+		</form>
 
+ 	<script type="text/javascript">    
+	$( document ).delegate("#groomappt", "pageinit", function() {
+	     
+	    //user clicks submit
+	    $('#submit').click(function () {        
+	    
+	        var form_data = $('#new_grappt').serialize(); 
+	
+	        //ajax call
+	        $.ajax({
+	            //post url
+	            url: "http://localhost/katies_grm/create_info.php", 
+	             
+	            //submission method
+	            type: "POST",
+	 
+	            //passes the data from the form          
+	            data: data,     
+	             
+	            //no cache
+	            cache: false,
+	
+		    dataType: "json",
+	            
+	            success: $('#grm_appt_response').text("Success!")
+	                          
+	            }       
+	        );
+	         
+	        //cancel standard submit behaviors
+	        return false;
+	    }); 
+	}); 
+        </script>
 
-      #sidebar ul {
-        margin-left: 0;
-        padding-left: 0;
-      }
-      #sidebar ul h3 {
-        margin-top: 25px;
-        font-size: 16px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #ccc;
-      }
-      #sidebar li {
-        list-style-type: none;
-      }
-      #sidebar ul.links li {
-        margin-bottom: 5px;
-      }
+	</div><!-- /newgrappt -->
 
-      .filename {
-        font-style: italic;
-      }
-    </style>
-    <script type="text/javascript">
-      function about() {
-        info = document.getElementById('about-content');
-        if (window.XMLHttpRequest)
-          { xhr = new XMLHttpRequest(); }
-        else
-          { xhr = new ActiveXObject("Microsoft.XMLHTTP"); }
-        xhr.open("GET","rails/info/properties",false);
-        xhr.send("");
-        info.innerHTML = xhr.responseText;
-        info.style.display = 'block'
-      }
-    </script>
-  </head>
-  <body>
-    <div id="page">
-      <div id="sidebar">
-        <ul id="sidebar-items">
-          <li>
-            <h3>Browse the documentation</h3>
-            <ul class="links">
-              <li><a href="http://guides.rubyonrails.org/">Rails Guides</a></li>
-              <li><a href="http://api.rubyonrails.org/">Rails API</a></li>
-              <li><a href="http://www.ruby-doc.org/core/">Ruby core</a></li>
-              <li><a href="http://www.ruby-doc.org/stdlib/">Ruby standard library</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
 
-      <div id="content">
-        <div id="header">
-          <h1>Welcome aboard</h1>
-          <h2>You&rsquo;re riding Ruby on Rails!</h2>
-        </div>
+</div><!-- /groomappt -->
 
-        <div id="about">
-          <h3><a href="rails/info/properties" onclick="about(); return false">About your application&rsquo;s environment</a></h3>
-          <div id="about-content" style="display: none"></div>
-        </div>
+<!-- Page: #picture -->
+<div data-role="page" id="picture" data-theme="a">
 
-        <div id="getting-started">
-          <h1>Getting started</h1>
-          <h2>Here&rsquo;s how to get rolling:</h2>
+	<div data-role="header" data-position="fixed">
+		<a data-rel="back" data-icon="arrow-l" class="ui-btn-left">Back</a>
+		<h1>Picture Upload</h1>
+	</div><!-- /header -->
 
-          <ol>
-            <li>
-              <h2>Use <code>rails generate</code> to create your models and controllers</h2>
-              <p>To see all available options, run it without parameters.</p>
-            </li>
+	<div data-role="content"
+		<p>You can upload pictures of your pet here.</p>
+		<form id="picture_upload" action="picture.php" method="post" enctype="multipart/form-data" data-ajax="false">
+  		  <input type="file" id="new_dgpic" name="new_dgpic" />
+  		  <input type="submit" value="Submit" />
+		</form>
 
-            <li>
-              <h2>Set up a default route and remove <span class="filename">public/index.html</span></h2>
-              <p>Routes are set up in <span class="filename">config/routes.rb</span>.</p>
-            </li>
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
 
-            <li>
-              <h2>Create your database</h2>
-              <p>Run <code>rake db:create</code> to create your database. If you're not using SQLite (the default), edit <span class="filename">config/database.yml</span> with your username and password.</p>
-            </li>
-          </ol>
-        </div>
-      </div>
+	</div><!-- /picture -->
+</div>
 
-      <div id="footer">&nbsp;</div>
-    </div>
-  </body>
+<!-- Page: #google -->
+<div data-role="page" id="goog_search" data-theme="a">
+
+	<div data-role="header" data-position="fixed">
+		<a data-rel="back" data-icon="arrow-l" class="ui-btn-left">Back</a>
+		<h1>Google Search</h1>
+	</div><!-- /header -->
+
+		<div data-roe="fieldcontain">
+		   <label for='google_search'>Search for local vet:</label> <input type='text' name='google_search' id='google_search' placeholder='Search'>  
+		</div>
+
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
+
+</div><!-- /cust -->
+
+<div data-role="page" id="settings">
+
+	<div data-role="header" data-position="fixed">
+		<h1>Katie's Dog Grooming</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" id="one">	
+		<h2 align="center">Settings</h2>
+		<p><a href="#cust" data-role="button" data-icon="arrow-r">Personal Information</a></p>	
+		<p><a href="#dog" data-role="button" data-icon="arrow-r">Pet Information</a></p>
+		<p><a href="#stylist" data-role="button" data-icon="arrow-r">Stylist Information</a></p>
+	</div><!-- /content -->
+
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<!-- Page: #cust -->
+<div data-role="page" id="cust" data-theme="a">
+
+	<div data-role="header" data-position="fixed" data-theme="a">
+		<a data-rel="back" data-direction='reverse' data-icon="arrow-l" class="ui-btn-left">Back</a>
+		<h1>Personal Information</h1>
+	</div><!-- /header -->
+
+		<div data-role="collapsible" id="myinfo">	
+			<h2>View Info</h2>
+				<div data-role="fieldcontain"><!--name box-->
+					<p><a href="http://localhost/katies_grm/view_customer.php" data-direction="forward" data-role="button" data-theme="b">View My Information</a></p>
+				</div>
+		</div><!-- /myinfo -->
+	
+		<div data-role="collapsible" id="editinfo">	
+			<h2>Edit Info</h2>
+			        <form id="edit_cust" method="post" action="http://localhost/katies_grm/edit_info.php" >
+				<div data-role="fieldcontain"><!--name box-->
+					<input type="hidden" name="form_choice" id="form_choice" value="edit_cust_info" />
+					<label for='edit_cust_first'>First Name:</label> <input required type='text' name='edit_cust_first' id='edit_cust_first' placeholder='First Name'> <br>
+					<label for='edit_cust_last'>Last Name:</label> <input required type='text' name='edit_cust_last' id='edit_cust_last' placeholder='Last Name'> <br>
+					<label for='edit_cust_address'>Address:</label> <input required type='text' name='edit_cust_address' id='edit_cust_address' placeholder='Address'> <br>
+					<label for='edit_cust_city'>City:</label> <input required type='text' name='edit_cust_city' id='edit_cust_city' placeholder='City'> <br>
+					<label for='new_cust_state'>State:</label> 
+					<select name="edit_cust_state" id="edit_cust_state" data-native-menu="false">
+						<option value="AL">Alabama</option>
+						<option value="AK">Alaska</option>
+						<option value="AZ">Arizona</option>
+						<option value="AR">Arkansas</option>
+						<option value="CA">California</option>
+						<option value="CO">Colorado</option>
+						<option value="CT">Connecticut</option>
+						<option value="DE">Delaware</option>
+						<option value="FL">Florida</option>
+						<option value="GA">Georgia</option>
+						<option value="HI">Hawaii</option>
+						<option value="ID">Idaho</option>
+						<option value="IL">Illinois</option>
+						<option value="IN">Indiana</option>
+						<option value="IA">Iowa</option>
+						<option value="KS">Kansas</option>
+						<option value="KY">Kentucky</option>
+						<option value="LA">Louisiana</option>
+						<option value="ME">Maine</option>
+						<option value="MD">Maryland</option>
+						<option value="MA">Massachusetts</option>
+						<option value="MI">Michigan</option>
+						<option value="MN">Minnesota</option>
+						<option value="MS">Mississippi</option>
+						<option value="MO">Missouri</option>
+						<option value="MT">Montana</option>
+						<option value="NE">Nebraska</option>
+						<option value="NV">Nevada</option>
+						<option value="NH">New Hampshire</option>
+						<option value="NJ">New Jersey</option>
+						<option value="NM">New Mexico</option>
+						<option value="NY">New York</option>
+						<option value="NC">North Carolina</option>
+						<option value="ND">North Dakota</option>
+						<option value="OH">Ohio</option>
+						<option value="OK">Oklahoma</option>
+						<option value="OR">Oregon</option>
+						<option value="PA">Pennsylvania</option>
+						<option value="RI">Rhode Island</option>
+						<option value="SC">South Carolina</option>
+						<option value="SD">South Dakota</option>
+						<option value="TN">Tennessee</option>
+						<option value="TX">Texas</option>
+						<option value="UT">Utah</option>
+						<option value="VT">Vermont</option>
+						<option value="VA">Virginia</option>
+						<option value="WA">Washington</option>
+						<option value="WV">West Virginia</option>
+						<option value="WI">Wisconsin</option>
+						<option value="WY">Wyoming</option>
+					</select>
+					<label for='edit_cust_zip'>Zip:</label> <input required type='text' name='edit_cust_zip' id='edit_cust_zip' placeholder='Zip'> <br>
+					<label for='edit_cust_phone'>Phone:</label> <input required type='text' name='edit_cust_phone' id='edit_cust_phone' placeholder='Phone'> <br><br>
+					<h3 id="edit_cust_response"></h3><br><br>
+	        			<input type='submit' value='Submit'/>
+					<input type='reset' value='Clear' />
+				</div> <!-- /fieldcontain -->
+			</form>	
+	
+	 	<script type="text/javascript">    
+		$( document ).delegate("#cust", "pageinit", function() {
+		    //user clicks submit
+		    $('#submit').click(function () {   
+			//serialize form data     
+		        var form_data = $('#edit_cust').serialize(); 
+		
+		        //ajax call
+		        $.ajax({
+		            //post url
+		            url: "http://localhost/katies_grm/edit_info.php", 
+		             
+		            //submission method
+		            type: "POST",
+		 
+		            //passes the data from the form       
+		            data: form_data,     
+		             
+		            //no cache
+		            cache: false
+		            }       
+		        );
+		         
+		        //cancel standard submit behaviors
+		        return false;
+		    }); 
+		}); 
+	        </script>
+	
+		</div><!-- /myinfo -->
+
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- /cust -->
+
+<!-- Page: #dog -->
+<div data-role="page" id="dog" data-theme="a">
+
+	<div data-role="header" data-position="fixed">
+		<a data-rel="back" data-icon="arrow-l" class="ui-btn-left">Back</a>
+		<h1>Dog Information</h1>
+	</div><!-- /header -->
+
+	<div data-role="collapsible" id="mydog">	
+		<h2>My Dog</h2>
+			<div data-role="fieldcontain"><!--name box-->
+				<p><a href="http://localhost/katies_grm/view_dog.php" data-direction="forward" data-role="button" data-theme="b">View Dog</a></p>
+			</div>
+	</div><!-- /mydog -->
+
+	<div data-role="collapsible" id="newdog">
+		<h2>New Dog</h2>
+			<form id="new_dog" method="POST" action="http://localhost/katies_grm/create_info.php" >
+				<div data-role="fieldcontain"><!--name box-->
+					<input type="hidden" name="form_choice" id="form_choice" value="new_dog"/>
+					<label for='new_dgnme'>Name:</label> <input required type='text' name='new_dgnme' id='new_dgnme' placeholder='Dogs Name'> <br>
+					<label for='new_dgbrd'>Breed:</label> <input required type='text' name='new_dgbrd' id='new_dgbrd' placeholder='Dogs Breed'> <br>
+					<label for='new_dgalrgy'>Allergies:</label> <input required type='text' name='new_dgalrgy' id='new_dgalrgy' placeholder='Grass, Pollen, Dust'> <br>
+					<label for='new_dgwght'>Weight:</label> <input required type='text' name='new_dgwght' id='new_dgwght' placeholder='Edit Weight'> <br>
+					<h3 id="cust_response"></h3><br><br>
+	        			<input type='submit' value='Submit'/>
+					<input type='reset' value='Clear' />
+				</div> <!-- /fieldcontain -->
+			</form>
+
+ 	<script type="text/javascript">    
+	$( document ).delegate("#dog", "pageinit", function() {
+	     
+	    //user clicks submit
+	    $('#submit').click(function () {        
+	        //serialize form data
+	        var form_data = $('#new_dog').serialize(); 
+	
+		//ajax call
+
+	        $.ajax({
+	            //post url
+	            url: "http://localhost/katies_grm/create_info.php", 
+	             
+	            //submission method
+	            type: "POST",
+	 
+	            //passes the data from the form     
+	            data: data,     
+	             
+	            //no cache
+	            cache: false
+		    }       
+	        );
+	         
+	        //cancel standard submit behaviors
+	        return false;
+	    }); 
+}); 
+        </script>
+
+	</div>
+
+	<div data-role="collapsible" id="editdog">	
+		<h2>Edit Dog Info</h2>
+			<form enctype="multipart/form-data" id="edit_dog_info" method="POST" action="http://localhost/katies_grm/edit_info.php" >
+				<div data-role="fieldcontain"><!--name box-->
+					<input type="hidden" name="form_choice" id="form_choice" value="edit_dog"/>
+					<label for='edit_dgnme'>Name:</label> <input required type='text' name='edit_dgnme' id='edit_dgnme' placeholder='Edit Name'> <br>
+					<label for='edit_dgbrd'>Breed:</label> <input required type='text' name='edit_dgbrd' id='edit_dgbrd' placeholder='Edit Breed'> <br>
+					<label for='edit_dgalrgy'>Allergies:</label> <input required type='text' name='edit_dgalrgy' id='edit_dgalrgy' placeholder='Grass, Pollen, Dust'> <br>
+					<label for='edit_dgwght'>Weight:</label> <input required type='text' name='edit_dgwght' id='edit_dgwght' placeholder='Edit Weight'> <br>
+	        			<input type='submit' value='Submit'/>
+					<input type='reset' value='Clear' />
+				</div> <!-- /fieldcontain -->
+			</form>
+
+ 	<script type="text/javascript">    
+	$( document ).delegate("#dog", "pageinit", function() {
+	     
+	    //user clicks submit
+	    $('#submit').click(function () {        
+	    	//serialize form data
+	        var form_data = $('#edit_dog_info').serialize(); 
+	
+	        //ajax call
+	        $.ajax({
+	            //post url
+	            url: "http://localhost/katies_grm/edit_info.php", 
+	             
+	            //submission method
+	            type: "POST",
+	 
+	            //passes the data from the form          
+	            data: data,     
+	             
+	            //no cache
+	            cache: false      
+	            }       
+	        );
+	         
+	        //cancel standard submit behaviors
+	        return false;
+	    }); 
+	}); 
+        </script>
+
+	</div><!-- /editdog -->
+
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
+
+</div><!-- /dog -->
+
+<!-- Page: #stylist -->
+<div data-role="page" id="stylist" data-theme="a">
+
+	<div data-role="header" data-position="fixed">
+		<a data-rel="back" data-icon="arrow-l" class="ui-btn-left">Back</a>
+		<h1>My Stylist</h1>
+	</div><!-- /header -->
+
+	<div data-role="collapsible" id="stylistinfo">	
+		<h2>Stylist Info</h2>
+			<p><a href="http://localhost/katies_grm/view_stylist.php" data-direction="forward" data-role="button" data-theme="b">View Stylist</a></p>
+	</div><!-- /stylistinfo -->
+
+	<div data-role="collapsible" id="newstylist">	
+		<h2>New Stylist</h2>
+
+		<form id="new_stylist" method="POST" action="http://localhost/katies_grm/create_info.php" >
+			<div data-role="fieldcontain"><!--name box-->
+				<input type="hidden" name="form_choice" id="form_choice" value="new_stylist"/>
+				<label for='new_styl_first'>Stylist's First Name:</label> <input required type='text' name='new_styl_first' id='new_styl_first' placeholder='First Name'> <br>
+				<label for='new_styl_last'>Stylist's Edit Last Name:</label> <input required type='text' name='new_styl_last' id='new_styl_last' placeholder='Last Name'> <br>
+				<label for='new_styl_spec'>Stylist's Specialty:</label> <input required type='text' name='new_styl_spec' id='new_styl_spec' placeholder='Specialty'> <br>
+				<h3 id="new_style_response"></h3><br><br>
+	        		<input type='submit' value='Submit'/>
+				<input type='reset' value='Clear' />
+			</div> <!-- /fieldcontain -->
+		</form>
+
+ 	<script type="text/javascript">    
+	$( document ).delegate("#stylist", "pageinit", function() {
+	     
+	    //user clicks submit
+	    $('#submit').click(function () {        
+	    	//serialize form data
+	        var form_data = $('#new_stylist').serialize(); 
+	
+	        //ajax call
+	        $.ajax({
+	            //post url
+	            url: "http://localhost/katies_grm/create_info.php", 
+	             
+	            //submission method
+	            type: "POST",
+	 
+	            //passes the data from the form          
+	            data: data
+	            }       
+	        );
+	         
+	        //cancel standard submit behaviors
+	        return false;
+	    }); 
+	}); 
+        </script>
+
+	</div><!-- /newstylist -->
+
+	<div data-role="collapsible" id="editstylist">	
+		<h2>Edit Stylist</h2>
+
+		<form id="edit_stylist" method="POST" action="http://localhost/katies_grm/edit_info.php" >
+			<div data-role="fieldcontain"><!--name box-->
+				<input type="hidden" name="form_choice" id="form_choice" value="edit_stylist"/>
+				<label for='ed_styl_first'>Sylist's First Name:</label> <input required type='text' name='ed_styl_first' id='ed_styl_first' placeholder='First Name'> <br>
+				<label for='ed_styl_last'>Stylist's Last Name:</label> <input required type='text' name='ed_styl_last' id='ed_styl_last' placeholder='Last Name'> <br>
+				<label for='ed_styl_spec'>Stylist's Specialty:</label> <input required type='text' name='ed_styl_spec' id='ed_styl_spec' placeholder='Specialty'> <br>
+	        		<input type='submit' value='Submit'/>
+				<input type='reset' value='Clear' />
+			</div> <!-- fieldcontain -->
+		</form>
+
+ 	<script type="text/javascript">    
+	$( document ).delegate("#stylist", "pageinit", function() {
+	     
+	    //user clicks submit
+	    $('#submit').click(function () {        
+	    	//serialize form data
+	        var form_data = $('#edit_stylist').serialize(); 
+	
+	        //ajax call
+	        $.ajax({
+	            //post url
+	            url: "http://localhost/katies_grm/edit_info.php", 
+	             
+	            //submission method
+	            type: "POST",
+	 
+	            //passes the data from the form       
+	            data: data     
+	            }       
+	        );
+	         
+	        //cancel standard submit behaviors
+	        return false;
+	    }); 
+	}); 
+        </script>
+
+	</div><!-- /editstylist -->
+
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- /stylist -->
+
+<!-- main page -->
+<div data-role="page" id="about_us">
+
+	<div data-role="header">
+		<h1><img src="logo.gif" width='90%' height='10%'></h1>
+	</div><!-- /header -->
+
+	<div data-role="content" id="one">	
+		<h2 align="center">About Us</h2>
+			<p>Katie's Dog Grooming began 16 years ago when Katie first received training with her dog bathing job.  She previously worked at a couple of grooming salons, and through those job experiences she decided to start her own business.</p><br>
+			<p>After three years of running the business from her home, Katie then moved the business to the downtown area.  This is where the business is currently located.</p>
+			<h4 align>Contact Us: </h4>
+			<p>234 E. Main St. <br>
+			Plainfield, IN 46168 <br>
+			(317) 839-0026</p>
+	</div><!-- /content -->
+
+	<div data-role="footer" data-mini="true" data-position="fixed">
+		<div data-role="navbar" data-theme="a" data-mini="true">
+			<ul>
+				<li><a href="#main" data-icon="home">Home</a></li>
+				<li><a href="#picture" data-icon="search">Take Pic</a></li>
+				<li><a href="#settings" data-icon="gear">Settings</a></li>
+				<li><a href="#about_us" data-icon="info">About Us</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
 </html>
